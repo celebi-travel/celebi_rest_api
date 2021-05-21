@@ -30,7 +30,7 @@ ALLOWED_HOSTS = []
 
 # Application definition
 
-INSTALLED_APPS = [
+DJANGO_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -38,6 +38,18 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 ]
+THIRD_PARTY_APPS = [
+    'rest_framework',
+    'rest_framework.authtoken',
+    'rest_auth', # login logougt işlemleri için indirdik
+    'django_extensions',
+]
+
+LOCAL_APPS = [
+    'account',
+]
+INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -103,9 +115,9 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/3.2/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE =  'tr-Tr'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE =  'Europe/Istanbul'
 
 USE_I18N = True
 
@@ -123,3 +135,13 @@ STATIC_URL = '/static/'
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+STATIC_URL = '/static/'
+MEDIA_URL = '/media/'
+MEDIA_ROOT = 'uploads'
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication', # token api
+        'rest_framework.authentication.SessionAuthentication', # browsable api
+    ]
+}
