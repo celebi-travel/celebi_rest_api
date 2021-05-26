@@ -22,6 +22,7 @@ urlpatterns = [
     path('super/user/', admin.site.urls),
 
     path('auth/', include('account.api.urls')),
+    path('places/', include('route.api.urls')), # todo isminiz değiştir
     path('', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
     path('redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
     # path('api-auth/',include('rest_framework.urls')), # browsable için
