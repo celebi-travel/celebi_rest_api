@@ -4,7 +4,7 @@ from rest_framework_simplejwt.tokens import RefreshToken
 from django.contrib.sites.shortcuts import get_current_site
 from django.urls import reverse
 from . import serializers
-from .serializers import EmailVerificationSerializer
+from .serializers import EmailVerificationSerializer, LoginSerializer, RegisterSerializer
 from ..models import UserBase
 from ..utils import Util
 import jwt
@@ -14,7 +14,7 @@ from drf_yasg import openapi
 
 
 class RegisterView(generics.GenericAPIView):
-    serializer_class = serializers.RegisterSerializer
+    serializer_class = RegisterSerializer
 
     def post(self, request):
         user = request.data
@@ -49,7 +49,8 @@ class VerifyEmail(views.APIView):
             print(payload)
             user = UserBase.objects.get(id=payload['user_id'])
 
-            if not user.is_active:
+            if not user.is_verified:
+                user.is_verified = True
                 user.is_active = True
                 user.save()
 
@@ -60,3 +61,12 @@ class VerifyEmail(views.APIView):
         except jwt.exceptions.DecodeError as identifier:
             # token süresi dolduğunda ...
             return Response({'error': 'Invalid token.'}, status=status.HTTP_400_BAD_REQUEST)
+
+
+class LoginApiView(generics.GenericAPIView):
+    serializer_class = LoginSerializer
+
+    def post(self, request):
+        serializer = self.serializer_class(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)

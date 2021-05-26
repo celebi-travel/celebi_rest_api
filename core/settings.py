@@ -138,13 +138,12 @@ MEDIA_ROOT = 'uploads'
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
-        'rest_framework.authentication.TokenAuthentication',  # token api
         'rest_framework.authentication.SessionAuthentication',  # browsable api
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ]
 }
 AUTH_USER_MODEL = 'account.UserBase'
-# EMAIL_USE_TLS = True
+EMAIL_USE_TLS = True
 # EMAIL_HOST = 'smtp.gmail.com'
 # EMAIL_PORT = 587
 # EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER')
